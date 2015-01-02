@@ -1,5 +1,9 @@
 *.class
 *.log
+*.iml
+
+.idea
+.DS_Store
 
 # sbt specific
 .cache/
