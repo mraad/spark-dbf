@@ -82,8 +82,8 @@ JavaSchemaRDD episodes = DBFUtils.dbfFile(sqlContext, "trips1M.dbf");
 
 ## Sample application with simple geometry UDF
 
-This sample uses our [geometry API](https://github.com/Esri/geometry-api-java) to define a UDF that calculates the
-distances in meters between two lat/lon pairs.
+This sample uses our [Geometry API](https://github.com/Esri/geometry-api-java) to define a UDF that calculates the
+distance in meters between two lat/lon pairs.
 
 ```shell
 $ ./spark-dbf.sh
