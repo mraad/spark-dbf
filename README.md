@@ -77,3 +77,20 @@ import com.esri.spark.dbf.DBFUtils;
 
 JavaSchemaRDD episodes = DBFUtils.dbfFile(sqlContext, "trips1M.dbf");
 ```
+
+## Sample application with simple geometry UDF
+
+```shell
+$ ./spark-dbf.sh
+```
+
+```scala
+import com.esri.core.geometry.{GeometryEngine, Point}
+import org.apache.spark.sql.SQLContext
+val sqlContext = new SQLContext(sc)
+import sqlContext._
+import com.esri.spark.dbf._
+sqlContext.dbfFile("/Users/mraad_admin/Dropbox/Public/trips1M.dbf").registerTempTable("trips")
+sqlContext.registerFunction("ST_DISTANCE", (x1: Float, y1: Float, x2: Float, y2: Float) => GeometryEngine.geodesicDistanceOnWGS84(new Point(x1, y1), new Point(x2, y2)))
+sql("select tripdist*1609.34,ST_DISTANCE(plon,plat,dlon,dlat) from trips limit 20").foreach(println)
+```
