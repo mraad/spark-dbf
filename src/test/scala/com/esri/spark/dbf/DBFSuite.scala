@@ -1,5 +1,6 @@
 package com.esri.spark.dbf
 
+import com.esri.core.geometry.Point
 import org.apache.spark.sql.test._
 import org.scalatest.FunSuite
 

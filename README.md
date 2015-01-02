@@ -11,7 +11,7 @@ This library requires Spark 1.2+ and depends on my [Shapefile](https://github.co
 Typically, [SBT](http://www.scala-sbt.org/) is used to build Scala based projects, but, I'm using [Maven](http://maven.apache.org/) to build this one.
 The pom.xml has plugins to compile scala and java sources.
 
-Make sure to first clone and install the [Shapefile](https://github.com/mraad/Shapefile) project.
+Make sure to first clone and install the [Shapefile](https://github.com/mraad/Shapefile) project, then
 
 ```
 $ mvn clean install
@@ -45,23 +45,15 @@ $ wget https://dl.dropboxusercontent.com/u/2193160/trips1M.dbf
 
 ### Scala API
 
-```
+```scala
 import org.apache.spark.sql.SQLContext
-
 val sqlContext = new SQLContext(sc)
-
 import sqlContext._
-
 import com.esri.spark.dbf._
-
 val trips = sqlContext.dbfFile("/Users/mraad_admin/Dropbox/Public/trips1M.dbf")
-
 trips.schema.fields.foreach(println)
-
 trips.registerTempTable("trips")
-
 sql("select count(*)").collect
-
 sql("select tripdist from trips order by tripdist desc limit 10").collect
 
 ```

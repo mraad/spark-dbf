@@ -1,17 +1,13 @@
 package com.esri
 
+import com.esri.core.geometry
+import com.esri.core.geometry.{GeometryEngine, Point}
 import com.esri.dbf.{DBFField, DBFHeader, DBFReader, DBFType}
 import com.esri.spark.dbf._
 import com.twitter.chill.KryoSerializer
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 
-
-/*
-class Inc(val add: Double = 1.0) extends Serializable {
-  def inc(x: Double) = x + add
-}
-*/
 
 object DBFApp {
 
@@ -38,13 +34,13 @@ object DBFApp {
       import sqlContext._
 
       sqlContext
-        .dbfFile("/Users/mraad_admin/Share/trips1M.dbf")
+        .dbfFile("/Users/mraad_admin/Dropbox/Public/trips1M.dbf")
         .registerTempTable("trips")
 
-      // val inc = new Inc(2.0)
-      // sqlContext.registerFunction("hex", (x: Double) => inc.inc(x))
+      sqlContext.registerFunction("ST_DISTANCE", (x1: Float, y1: Float, x2: Float, y2: Float) =>
+        GeometryEngine.geodesicDistanceOnWGS84(new Point(x1, y1), new geometry.Point(x2, y2)))
 
-      sql("select min(plon),max(plon),min(plat),max(plat) from trips where plon between -180 and 0 and plat between -90 and 90").foreach(println)
+      sql("select tripdist,ST_DISTANCE(plon,plat,dlon,dlat) from trips limit 20").foreach(println)
 
     }
     finally {
