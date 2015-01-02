@@ -71,7 +71,7 @@ OPTIONS (path "trips1M.dbf")
 ```
 
 ### Java API
-Avro files can be read using static functions in AvroUtils.
+DBF files can be read using static functions in DBFUtils.
 
 
 ```java
