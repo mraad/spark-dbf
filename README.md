@@ -77,10 +77,10 @@ DBF files can be read using static functions in DBFUtils.
 ```java
 import com.esri.spark.dbf.DBFUtils;
 
-JavaSchemaRDD episodes = DBFUtils.dbfFile(sqlContext, "trips1M.dbf");
+JavaSchemaRDD trips = DBFUtils.dbfFile(sqlContext, "trips1M.dbf");
 ```
 
-## Sample application with simple geometry UDF
+## Sample spark shell session with simple geometry UDF
 
 This sample uses our [Geometry API](https://github.com/Esri/geometry-api-java) to define a UDF that calculates the
 distance in meters between two lat/lon pairs.
