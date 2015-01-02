@@ -2,7 +2,9 @@
 
 A library for querying [DBF](http://www.digitalpreservation.gov/formats/fdd/fdd000325.shtml) data with [Spark SQL](http://spark.apache.org/docs/latest/sql-programming-guide.html).
 
-### This is work in progress
+*This is work in progress* and is based on the [spark-avro](https://github.com/databricks/spark-avro) project.
+The "Ye Olde" DBF file format encapsulates data and schema just like the modern Avro format. So it was natural and
+quick to mutate the avro project and adapt it to our trusty and ubiquitous dbf format.
 
 ## Requirements
 This library requires Spark 1.2+ and depends on my [Shapefile](https://github.com/mraad/Shapefile) github project.
@@ -50,7 +52,7 @@ import org.apache.spark.sql.SQLContext
 val sqlContext = new SQLContext(sc)
 import sqlContext._
 import com.esri.spark.dbf._
-val trips = sqlContext.dbfFile("/Users/mraad_admin/Dropbox/Public/trips1M.dbf")
+val trips = sqlContext.dbfFile("trips1M.dbf")
 trips.schema.fields.foreach(println)
 trips.registerTempTable("trips")
 sql("select count(*)").collect
@@ -90,7 +92,7 @@ import org.apache.spark.sql.SQLContext
 val sqlContext = new SQLContext(sc)
 import sqlContext._
 import com.esri.spark.dbf._
-sqlContext.dbfFile("/Users/mraad_admin/Dropbox/Public/trips1M.dbf").registerTempTable("trips")
+sqlContext.dbfFile("trips1M.dbf").registerTempTable("trips")
 sqlContext.registerFunction("ST_DISTANCE", (x1: Float, y1: Float, x2: Float, y2: Float) => GeometryEngine.geodesicDistanceOnWGS84(new Point(x1, y1), new Point(x2, y2)))
 sql("select tripdist*1609.34,ST_DISTANCE(plon,plat,dlon,dlat) from trips limit 20").foreach(println)
 ```
