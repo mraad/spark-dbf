@@ -55,7 +55,7 @@ import com.esri.spark.dbf._
 val trips = sqlContext.dbfFile("trips1M.dbf")
 trips.schema.fields.foreach(println)
 trips.registerTempTable("trips")
-sql("select count(*)").collect
+sql("select count(*) from trips").collect
 sql("select tripdist from trips order by tripdist desc limit 10").collect
 
 ```
@@ -81,6 +81,9 @@ JavaSchemaRDD episodes = DBFUtils.dbfFile(sqlContext, "trips1M.dbf");
 ```
 
 ## Sample application with simple geometry UDF
+
+This sample uses our [geometry API](https://github.com/Esri/geometry-api-java) to define a UDF that calculates the
+distances in meters between two lat/lon pairs.
 
 ```shell
 $ ./spark-dbf.sh
